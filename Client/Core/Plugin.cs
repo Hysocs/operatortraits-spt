@@ -16,7 +16,7 @@ namespace OperatorTraits
     {
         public const string Guid = "com.hysocs.operatortraits";
         public const string Name = "Operator Traits";
-        public const string Version = "1.0.0";
+        public const string Version = "1.1.0";
 
         internal static Plugin Instance { get; private set; }
         internal static ManualLogSource Log { get; private set; }

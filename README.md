@@ -1,6 +1,6 @@
 # Operator Traits
 
-A standalone SPT character-trait mod. Version 1.0.0 adds a native **Traits**
+A standalone SPT character-trait mod. Version 1.1.0 adds a native **Traits**
 tab immediately after **Tasks** in Tarkov's character menu, with trait
 selection, point balancing, persistence, and gameplay effects.
 
