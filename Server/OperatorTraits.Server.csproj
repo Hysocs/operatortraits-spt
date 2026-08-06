@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <OutputType>Library</OutputType>
+    <AssemblyName>OperatorTraits.Server</AssemblyName>
+    <RootNamespace>OperatorTraits.Server</RootNamespace>
+    <Version>0.1.0</Version>
+    <SptRoot Condition="'$(SptRoot)' == ''">C:\SPT\4.1.1</SptRoot>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Client\OperatorTraits.Client.csproj" ReferenceOutputAssembly="false" />
+    <Compile Include="..\Client\Core\BrokenSecureContainerRules.cs" Link="Core\BrokenSecureContainerRules.cs" />
+    <Reference Include="SemanticVersioning"><HintPath>$(SptRoot)\SPT_Runtime\SemanticVersioning.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="SPTarkov.DI"><HintPath>$(SptRoot)\SPT_Runtime\SPTarkov.DI.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="SPTarkov.Server.Core"><HintPath>$(SptRoot)\SPT_Runtime\SPTarkov.Server.Core.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="SPTarkov.Reflection"><HintPath>$(SptRoot)\SPT_Runtime\SPTarkov.Reflection.dll</HintPath><Private>false</Private></Reference>
+  </ItemGroup>
+  <PropertyGroup>
+    <InstallDir>$(SptRoot)\SPT_Runtime\user\mods\HysocsOperatorTraits</InstallDir>
+    <ClientDll>$(MSBuildProjectDirectory)\..\Client\bin\$(Configuration)\netstandard2.1\OperatorTraits.dll</ClientDll>
+    <PackageRoot>$(MSBuildProjectDirectory)\..\dist\OperatorTraits-$(Version)</PackageRoot>
+    <PackageZip>$(MSBuildProjectDirectory)\..\dist\OperatorTraits-$(Version).zip</PackageZip>
+  </PropertyGroup>
+  <Target Name="DeployServer" AfterTargets="Build" Condition="'$(SkipDeploy)' != 'true'">
+    <MakeDir Directories="$(InstallDir)" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(InstallDir)" SkipUnchangedFiles="false" />
+  </Target>
+  <Target Name="CreateReleasePackage" AfterTargets="CopyFilesToOutputDirectory" Condition="'$(Configuration)' == 'Release' and '$(SkipPackage)' != 'true'">
+    <RemoveDir Directories="$(PackageRoot)" />
+    <Delete Files="$(PackageZip)" />
+    <MakeDir Directories="$(PackageRoot)\BepInEx\plugins\Hysocs-OperatorTraits" />
+    <MakeDir Directories="$(PackageRoot)\SPT_Runtime\user\mods\HysocsOperatorTraits" />
+    <Copy SourceFiles="$(ClientDll)" DestinationFolder="$(PackageRoot)\BepInEx\plugins\Hysocs-OperatorTraits" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(PackageRoot)\SPT_Runtime\user\mods\HysocsOperatorTraits" />
+    <ZipDirectory SourceDirectory="$(PackageRoot)" DestinationFile="$(PackageZip)" Overwrite="true" />
+  </Target>
+</Project>
