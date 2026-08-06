@@ -20,6 +20,7 @@
   <PropertyGroup>
     <InstallDir>$(SptRoot)\SPT_Runtime\user\mods\HysocsOperatorTraits</InstallDir>
     <ClientDll>$(MSBuildProjectDirectory)\..\Client\bin\$(Configuration)\netstandard2.1\OperatorTraits.dll</ClientDll>
+    <LicenseFile>$(MSBuildProjectDirectory)\..\LICENSE</LicenseFile>
     <PackageRoot>$(MSBuildProjectDirectory)\..\dist\OperatorTraits-$(Version)</PackageRoot>
     <PackageZip>$(MSBuildProjectDirectory)\..\dist\OperatorTraits-$(Version).zip</PackageZip>
   </PropertyGroup>
@@ -34,6 +35,9 @@
     <MakeDir Directories="$(PackageRoot)\SPT_Runtime\user\mods\HysocsOperatorTraits" />
     <Copy SourceFiles="$(ClientDll)" DestinationFolder="$(PackageRoot)\BepInEx\plugins\Hysocs-OperatorTraits" />
     <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(PackageRoot)\SPT_Runtime\user\mods\HysocsOperatorTraits" />
+    <Copy SourceFiles="$(LicenseFile)" DestinationFolder="$(PackageRoot)\BepInEx\plugins\Hysocs-OperatorTraits" />
+    <Copy SourceFiles="$(LicenseFile)" DestinationFolder="$(PackageRoot)\SPT_Runtime\user\mods\HysocsOperatorTraits" />
     <ZipDirectory SourceDirectory="$(PackageRoot)" DestinationFile="$(PackageZip)" Overwrite="true" />
+    <Message Importance="high" Text="Operator Traits release package created: $(PackageZip)" />
   </Target>
 </Project>
